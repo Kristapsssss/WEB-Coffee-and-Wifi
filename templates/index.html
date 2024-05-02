@@ -1,0 +1,195 @@
+{% include "header.html" %}
+<main>
+
+  <section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">Coffee Shops around town</h1>
+        <p class="lead text-body-secondary">We made it simple for you to find the coffee shop that best suits your needs. For each coffee shop the research has been done to find out how much a cup of coffee costs, does it have electricity outlets, or can you take phone calls inside and many more..</p>
+        <p>
+          <a href="#" class="btn btn-primary my-2">Main call to action</a>
+          <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="album py-5 bg-body-tertiary">
+    <div class="container">
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {% for cafe in cafes %}
+        <div class="col">
+          <div class="card shadow-sm">
+            <svg class="bd-placeholder-img card-img-top" width="100%" height="300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>{{cafe.name}}</title><image href="{{cafe.img_url}}" height="300" width="100%"></image></svg>
+            <div class="card-header">
+
+              <h5 class="card-title">{{cafe.name}}</h5>
+              <h6 class="card-subtitle mb-2 text-body-secondary">{{cafe.location}}</h6>
+
+                <div class="card-body">
+                  <div class="container">
+
+                      <ul class="list-group list-group-flush">
+                          <li class="list-group-item">
+
+                          <div class="row my-2">
+                            <div class="col-md-6">
+                                <p class="card-text">Has sockets</p>
+                            </div>
+                            <div class="col-md-6">
+                                {% if cafe.has_sockets %}
+                                <div class="progress" role="progressbar" aria-label="Has sockets" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar bg-success" style="width: 100%"></div>
+                                </div>
+                                {% else %}
+                                <div class="progress" role="progressbar" aria-label="Has sockets" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar bg-danger" style="width: 100%"></div>
+                                </div>
+                                {% endif %}
+                            </div>
+                          </div>
+                          </li>
+
+
+                            <li class="list-group-item">
+
+                              <div class="row my-2">
+                                <div class="col-md-6">
+                                    <p class="card-text">Has Toilet</p>
+                                </div>
+                                <div class="col-md-6">
+                                    {% if cafe.has_toilet %}
+                                    <div class="progress" role="progressbar" aria-label="Has sockets" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar bg-success" style="width: 100%"></div>
+                                    </div>
+                                    {% else %}
+                                    <div class="progress" role="progressbar" aria-label="Has sockets" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar bg-danger" style="width: 100%"></div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                              </div>
+
+                            </li>
+
+                          <li class="list-group-item">
+                              <div class="row my-2">
+                                <div class="col-md-6">
+                                    <p class="card-text">Has Wi-Fi</p>
+                                </div>
+                                <div class="col-md-6">
+                                    {% if cafe.has_wifi %}
+                                    <div class="progress" role="progressbar" aria-label="Has sockets" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar bg-success" style="width: 100%"></div>
+                                    </div>
+                                    {% else %}
+                                    <div class="progress" role="progressbar" aria-label="Has sockets" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar bg-danger" style="width: 100%"></div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                              </div>
+                          </li>
+
+                          <li class="list-group-item">
+                              <div class="row my-2">
+                                <div class="col-md-6">
+                                    <p class="card-text">Can Take Calls</p>
+                                </div>
+                                <div class="col-md-6">
+                                    {% if cafe.can_take_calls %}
+                                    <div class="progress" role="progressbar" aria-label="Has sockets" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar bg-success" style="width: 100%"></div>
+                                    </div>
+                                    {% else %}
+                                    <div class="progress" role="progressbar" aria-label="Has sockets" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar bg-danger" style="width: 100%"></div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                              </div>
+                          </li>
+
+                          <li class="list-group-item">
+                              <div class="row my-2">
+                                <div class="col-md-6">
+                                    <p class="card-text">Seats</p>
+                                </div>
+                                <div class="col-md-6">
+                                    {% if cafe.seats[0] == '0' %}
+                                    <div class="progress" role="progressbar" aria-label="Has sockets" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" style="width: 16%"></div>
+                                    </div>
+                                    {% elif cafe.seats[0] == '1' %}
+                                    <div class="progress" role="progressbar" aria-label="Has sockets" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" style="width: 32%"></div>
+                                    </div>
+                                    {% elif cafe.seats[0] == '2' %}
+                                    <div class="progress" role="progressbar" aria-label="Has sockets" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: 48%"></div>
+                                    </div>
+                                    {% elif cafe.seats[0] == '3' %}
+                                    <div class="progress" role="progressbar" aria-label="Has sockets" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: 64%"></div>
+                                    </div>
+                                    {% elif cafe.seats[0] == '4' %}
+                                    <div class="progress" role="progressbar" aria-label="Has sockets" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: 80%"></div>
+                                    </div>
+                                    {% else %}
+                                    <div class="progress" role="progressbar" aria-label="Has sockets" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: 100%"></div>
+                                    </div>
+                                    {% endif %}
+                                    <p class="card-text">{{cafe.seats}}</p>
+                                </div>
+                              </div>
+                          </li>
+
+                          <li class="list-group-item">
+                              <div class="row my-2">
+                                <div class="col-md-6">
+                                    <p class="card-text">Coffee Price</p>
+                                </div>
+                                <div class="col-md-6">
+                                    {% set percentage = 100 - ((currency_convert(cafe.coffee_price)-lowest_price) / (highest_price - lowest_price) * 100) %}
+                                    {% if cafe.coffee_price %}
+                                    <div class="progress" role="progressbar" aria-label="Has sockets" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width:{{percentage}}%"></div>
+                                    </div>
+                                    {% else %}
+                                    <div class="progress" role="progressbar" aria-label="Has sockets" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: 100%"></div>
+                                    </div>
+                                    {% endif %}
+                                    <p class="card-text">{{cafe.coffee_price}}</p>
+                                </div>
+                              </div>
+                          </li>
+                      </ul>
+
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center card-footer">
+                    <div class="btn-group">
+                      <a href="" type="button" class="btn btn-sm btn-outline-secondary">View</a>
+                      <a href="" type="button" class="btn btn-sm btn-outline-secondary">Edit</a>
+                      <a href="" type="button" class="btn btn-sm btn-outline-secondary">Delete</a>
+                    </div>
+                    <small class="text-body-secondary">9 mins</small>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+
+    </div>
+  </div>
+
+</main>
+
+{% include "footer.html" %}
