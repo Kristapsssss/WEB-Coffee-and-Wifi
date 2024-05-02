@@ -6,10 +6,78 @@
       <div class="col-lg-6 col-md-8 mx-auto">
         <h1 class="fw-light">Coffee Shops around town</h1>
         <p class="lead text-body-secondary">We made it simple for you to find the coffee shop that best suits your needs. For each coffee shop the research has been done to find out how much a cup of coffee costs, does it have electricity outlets, or can you take phone calls inside and many more..</p>
-        <p>
-          <a href="#" class="btn btn-primary my-2">Main call to action</a>
-          <a href="#" class="btn btn-secondary my-2">Secondary action</a>
-        </p>
+
+            <button data-bs-toggle="modal" type="button" class="btn btn-success btn-lg" data-bs-target="#CafeModal">Add New Cafe</button>
+
+
+            <div class="modal fade" id="CafeModal" tabindex="-1" aria-labelledby="editCafeModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="CafeModalLabel">Edit Cafe Details</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+
+                                <!-- Add form fields to edit cafe details -->
+                                <form id="CafeForm" action="{{ url_for('add_cafe') }}" method="POST">
+                                  <!-- Example: Input fields to edit cafe name and location -->
+                                  <div class="mb-3">
+                                    <label for="CafeName" class="form-label">Cafe Name</label>
+                                    <input type="text" class="form-control" id="CafeName" name="CafeName">
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="CafeLocation" class="form-label">Location</label>
+                                    <input type="text" class="form-control" id="CafeLocation" name="CafeLocation">
+                                  </div>
+                                    <div class="mb-3">
+                                    <label for="CafeMap_url" class="form-label">Google Maps Location URL</label>
+                                    <input type="text" class="form-control" id="CafeMap_url" name="CafeMap_url">
+                                  </div>
+                                    <div class="mb-3">
+                                    <label for="CafeImg_url" class="form-label">Image URL</label>
+                                    <input type="text" class="form-control" id="CafeImg_url" name="CafeImg_url">
+                                  </div>
+                                    <div class="mb-3">
+                                    <label for="CafeHas_Sockets" class="form-label">Has Sockets</label>
+                                    <input type="checkbox" id="CafeHas_Sockets" name="CafeHas_Sockets">
+                                  </div>
+                                    <div class="mb-3">
+                                    <label for="CafeHas_Toilet" class="form-label">Has Toilet</label>
+                                    <input type="checkbox" id="CafeHas_Toilet" name="CafeHas_Toilet">
+                                  </div>
+                                    <div class="mb-3">
+                                    <label for="CafeHas_Wifi" class="form-label">Has Wi-Fi</label>
+                                    <input type="checkbox" id="CafeHas_Wifi" name="CafeHas_Wifi">
+                                  </div>
+                                    <div class="mb-3">
+                                    <label for="CafeCanTakeCalls" class="form-label">Can take calls</label>
+                                    <input type="checkbox" id="CafeCanTakeCalls" name="CafeCanTakeCalls">
+                                  </div>
+                                    <div class="mb-3">
+                                    <label for="CafeSeats" class="form-label">Seats</label>
+                                        <select id="CafeSeats" name="CafeSeats">
+                                            <option value="0-10">0 - 10</option>
+                                            <option value="10-20">10 - 20</option>
+                                            <option value="20-30">20 - 30</option>
+                                            <option value="30-40">30 - 40</option>
+                                            <option value="40-50">40 - 50</option>
+                                            <option value="50+">50+</option>
+                                        </select>
+                                  </div>
+                                    <div class="mb-3">
+                                    <label for="CafeCoffeePrice" class="form-label">Coffee Price</label>
+                                    <input type="text" class="form-control" id="CafeCoffeePrice" name="CafeCoffeePrice">
+                                  </div>
+                                  <button type="submit" class="btn btn-success btn-lg">Save Changes</button>
+                                </form>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+
       </div>
     </div>
   </section>
@@ -153,10 +221,9 @@
                                     <p class="card-text">Coffee Price</p>
                                 </div>
                                 <div class="col-md-6">
-                                    {% set percentage = 100 - ((currency_convert(cafe.coffee_price)-lowest_price) / (highest_price - lowest_price) * 100) %}
                                     {% if cafe.coffee_price %}
                                     <div class="progress" role="progressbar" aria-label="Has sockets" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width:{{percentage}}%"></div>
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width:{{percentages[cafe]}}%"></div>
                                     </div>
                                     {% else %}
                                     <div class="progress" role="progressbar" aria-label="Has sockets" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
@@ -173,9 +240,82 @@
 
                   <div class="d-flex justify-content-between align-items-center card-footer">
                     <div class="btn-group">
-                      <a href="" type="button" class="btn btn-sm btn-outline-secondary">View</a>
-                      <a href="" type="button" class="btn btn-sm btn-outline-secondary">Edit</a>
-                      <a href="" type="button" class="btn btn-sm btn-outline-secondary">Delete</a>
+
+                      <a href="{{cafe.map_url}}" type="button" class="btn btn-sm btn-outline-secondary">View on Google Maps</a>
+                      <button data-bs-toggle="modal" type="button" class="btn btn-sm btn-outline-secondary" data-bs-target="#editCafeModal" onclick="populateEditModal({{ cafe.id }})">Edit</button>
+
+                        <!-- Edit Cafe Modal -->
+                        <div class="modal fade" id="editCafeModal" tabindex="-1" aria-labelledby="editCafeModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="editCafeModalLabel">Edit Cafe Details</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+
+                                <!-- Add form fields to edit cafe details -->
+                                <form id="editCafeForm" action="{{ url_for('update_cafe') }}" method="POST">
+                                  <!-- Example: Input fields to edit cafe name and location -->
+                                  <div class="mb-3">
+                                    <label for="editCafeName" class="form-label">Cafe Name</label>
+                                    <input type="text" class="form-control" id="editCafeName" name="editCafeName">
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="editCafeLocation" class="form-label">Location</label>
+                                    <input type="text" class="form-control" id="editCafeLocation" name="editCafeLocation">
+                                  </div>
+                                    <div class="mb-3">
+                                    <label for="editCafeMap_url" class="form-label">Google Maps Location URL</label>
+                                    <input type="text" class="form-control" id="editCafeMap_url" name="editCafeMap_url">
+                                  </div>
+                                    <div class="mb-3">
+                                    <label for="editCafeImg_url" class="form-label">Image URL</label>
+                                    <input type="text" class="form-control" id="editCafeImg_url" name="editCafeImg_url">
+                                  </div>
+                                    <div class="mb-3">
+                                    <label for="editCafeHas_Sockets" class="form-label">Has Sockets</label>
+                                    <input type="checkbox" id="editCafeHas_Sockets" name="editCafeHas_Sockets">
+                                  </div>
+                                    <div class="mb-3">
+                                    <label for="editCafeHas_Toilet" class="form-label">Has Toilet</label>
+                                    <input type="checkbox" id="editCafeHas_Toilet" name="editCafeHas_Toilet">
+                                  </div>
+                                    <div class="mb-3">
+                                    <label for="editCafeHas_Wifi" class="form-label">Has Wi-Fi</label>
+                                    <input type="checkbox" id="editCafeHas_Wifi" name="editCafeHas_Wifi">
+                                  </div>
+                                    <div class="mb-3">
+                                    <label for="editCafeCanTakeCalls" class="form-label">Can take calls</label>
+                                    <input type="checkbox" id="editCafeCanTakeCalls" name="editCafeCanTakeCalls">
+                                  </div>
+                                    <div class="mb-3">
+                                    <label for="editCafeSeats" class="form-label">Seats</label>
+                                        <select id="editCafeSeats" name="editCafeSeats">
+                                            <option value="0-10">0 - 10</option>
+                                            <option value="10-20">10 - 20</option>
+                                            <option value="20-30">20 - 30</option>
+                                            <option value="30-40">30 - 40</option>
+                                            <option value="40-50">40 - 50</option>
+                                            <option value="50+">50+</option>
+                                        </select>
+                                  </div>
+                                    <div class="mb-3">
+                                    <label for="editCafeCoffeePrice" class="form-label">Coffee Price</label>
+                                    <input type="text" class="form-control" id="editCafeCoffeePrice" name="editCafeCoffeePrice">
+                                  </div>
+                                    <input type="hidden" id="selectedCafeId" name="selectedCafeId">
+                                  <!-- Add more input fields as needed -->
+                                  <button type="submit" class="btn btn-success btn-lg">Save Changes</button>
+                                </form>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      <a type="button" class="btn btn-sm btn-outline-secondary" href="{{url_for('delete_cafe', cafe_id=cafe.id)}}">Delete</a>
+
                     </div>
                     <small class="text-body-secondary">9 mins</small>
                   </div>
@@ -189,6 +329,7 @@
 
     </div>
   </div>
+
 
 </main>
 

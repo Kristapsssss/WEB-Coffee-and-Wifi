@@ -6,6 +6,41 @@
     <p class="mb-1">@ 2024 Kristaps.R</p>
   </div>
 </footer>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="static/js/bootstrap.bundle.min.js"></script>
+
+<!-- Custom JS script to handle the modal for editing cards -->
+<script>
+  function populateEditModal(cafeId) {
+    //Save cafe id to be edited
+
+    var selectedCafeId = cafeId;
+
+    // Fetch cafe details using AJAX
+
+    fetch(`/api/cafe/${cafeId}`)
+      .then(response => response.json())
+      .then(data => {
+
+        // Populate form fields with cafe details
+        document.getElementById('editCafeName').value = data.name;
+        document.getElementById('editCafeLocation').value = data.location;
+        document.getElementById('editCafeMap_url').value = data.map_url;
+        document.getElementById('editCafeImg_url').value = data.img_url;
+        document.getElementById('editCafeHas_Sockets').checked = data.has_sockets;
+        document.getElementById('editCafeHas_Toilet').checked = data.has_toilet;
+        document.getElementById('editCafeHas_Wifi').checked = data.has_wifi;
+        document.getElementById('editCafeCanTakeCalls').checked = data.can_take_calls;
+        document.getElementById('editCafeSeats').value = data.seats;
+        document.getElementById('editCafeCoffeePrice').value = data.coffee_price;
+
+        //Create a hidden input field to store the selectedCafeId to edit
+        document.getElementById('selectedCafeId').value = selectedCafeId;
+
+      })
+      .catch(error => console.error('Error fetching cafe details:', error));
+  }
+</script>
 
 </body></html>
